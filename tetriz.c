@@ -33,28 +33,37 @@ int filaVazia(Fila *f) {
 }
 
 void inserir(Fila *f, Peca p) {
+    //Verifica se aa fila esta cheia
     if (f->total == MAX) {
         printf("Fila cheia. Não é possível inserir.\n");
         return;
     }
  
+    //Insere peca
     f->itens[f->fim] = p;
     f->fim = (f->fim + 1) % MAX;
     f->total++;
 }
 
-void remover(Fila *f, Peca *p) {
+Peca remover(Fila *f) {
+    Peca removida;
+
     if (filaVazia(f)) {
         printf("Fila vazia. Não é possível remover.\n");
-        return;
+        strcpy(removida.nome, "VAZIO");
+        removida.id = -1;
+        return removida;
     }
 
-    *p = f->itens[f->inicio];             
-    f->inicio = (f->inicio + 1) % MAX;     
-    f->total--;                        
+    removida = f->itens[f->inicio];         // pega o item
+    f->inicio = (f->inicio + 1) % MAX;      // avança o início
+    f->total--;                             // diminui quantidade
+
+    return removida;                      
 }
 
 void mostrarFila(Fila *f) {
+    //Percorre a fila e mostra no terminal
     printf("Fila: ");
     for (int i = 0, idx = f->inicio; i < f->total; i++, idx = (idx + 1) % MAX) {
         printf("[%s, %d] ", f->itens[idx].nome, f->itens[idx].id);
@@ -63,6 +72,7 @@ void mostrarFila(Fila *f) {
 }
 
 Peca gerarPeca(){
+    //Gera uma peca aleatoria
     int dado = (rand() % 4);
     Peca p;
     if(dado == 0){
@@ -87,16 +97,25 @@ Peca gerarPeca(){
 int main(){
     srand(time(NULL));
 
+    //Iniciaaliza a fila
     Fila f;
     inicializarFila(&f);
 
+    //Isere algumas pecas
     inserir(&f, gerarPeca());
     inserir(&f, gerarPeca());
     inserir(&f, gerarPeca());
     inserir(&f, gerarPeca());
     inserir(&f, gerarPeca());
 
+    //Mostra a fila
     mostrarFila(&f);
 
+    //Removver peca
+    /*
+    Peca r = remover(&f);
+    printf("Removido: [%s id=%d]\n", r.nome, r.id);
+    mostrarFila(&f);
+    */
     return 0;
 }
