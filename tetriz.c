@@ -7,7 +7,7 @@
 
 //Definicao de struct
 typedef struct{
-    char nome[30];
+    char nome[1];
     int id;
 } Peca;
 
@@ -63,41 +63,40 @@ void mostrarFila(Fila *f) {
 }
 
 Peca gerarPeca(){
-    int dado = (rand() % 3);
-    if(dado = 0){
-        Peca peca = {'I',0};
-        return peca;
+    int dado = (rand() % 4);
+    Peca p;
+    if(dado == 0){
+        strcpy(p.nome, "I");
+        p.id = 0;
     }
-    else if(dado = 1){
-        Peca peca = {'O',1};
-        return peca;
+    else if(dado == 1){
+        strcpy(p.nome, "O");
+        p.id = 1;
     }
-    else if(dado = 2){
-        Peca peca = {'T',2};
-        return peca;
+    else if(dado == 2){
+        strcpy(p.nome, "T");
+        p.id = 2;
     }
-    else if(dado = 3){
-        Peca peca = {'L',3};
-        return peca;
+    else {
+        strcpy(p.nome, "L");
+        p.id = 3;
     }
+    return p;
 }
 
 int main(){
+    srand(time(NULL));
+
     Fila f;
     inicializarFila(&f);
 
-    Peca p1 = {'I',0};
-    Peca p2 = {'O',1};
-    Peca p3 = {'T',2};
-    Peca p4 = {'L',3};
-
-    inserir(&f, p1);
-    inserir(&f, p2);
-    inserir(&f, p3);
-    inserir(&f, p4);
+    inserir(&f, gerarPeca());
+    inserir(&f, gerarPeca());
+    inserir(&f, gerarPeca());
+    inserir(&f, gerarPeca());
+    inserir(&f, gerarPeca());
 
     mostrarFila(&f);
-
 
     return 0;
 }
